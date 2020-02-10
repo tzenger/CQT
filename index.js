@@ -1,6 +1,8 @@
 const express = require('express');
 const app = require('express')();
 app.use(express.static('public'));
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb+srv://scrooble:8sowmvsU@scroobledb-06tsw.mongodb.net/test?retryWrites=true&w=majority';
 
@@ -51,6 +53,6 @@ io.on('connection', function(socket) {
 });
 
 
-app.listen(process.env.PORT || 3333, function() {
+http.listen(process.env.PORT || 3333, function() {
 	console.log('listening on 3333');
 });
