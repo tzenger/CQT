@@ -16,6 +16,7 @@ function run() {
   root.question = "Is it an object?";
   document.getElementById("topText").innerHTML = root.question;
 
+
 }
 
 function checkYes() {
