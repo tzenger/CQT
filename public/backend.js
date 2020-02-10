@@ -1,3 +1,14 @@
+let socket = io.connect('localhost:3333');
+let questionNode;
+socket.on('node', function(coolNode) {
+    questionNode = coolNode;
+});
+
+function updateNode(node){
+  socket.emit('updateNode', node);
+
+}
+
 run();
 
 function run() {
