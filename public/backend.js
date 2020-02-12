@@ -1,45 +1,104 @@
 let socket = io.connect('localhost:3333');
-let questionNode;
+let root;
+let currNode;
+let godlyRoot;
+let currPath;
+
+let yesButton = document.getElementById("yesButton");
+let noButton = document.getElementById("noButton");
+let submitButton = document.getElementById("submitButton");
+let qSubmitButton = document.getElementById("qSubmitButton");
+let inputField = document.getElementById("inputField");
+
+yesButton.style.display = "block";
+noButton.style.display = "block";
+submitButton.style.display = "none";
+qSubmitButton.style.display = "none";
+inputField.style.display = "none";
+
+/*
 socket.on('node', function(coolNode) {
-    questionNode = coolNode;
-});
+    root = coolNode;
+    startGame();
+});*/
 
 function updateNode(node){
   socket.emit('updateNode', node);
-
 }
 
-run();
+function updateQuestion(q){
+  document.getElementById("topText").innerHTML = q;
+}
 
-function run() {
-  let root = new QuestionNode();
-  root.question = "Is it an object?";
+startGame();
+function startGame(){
+  yesButton.style.display = "block";
+  noButton.style.display = "block";
+  submitButton.style.display = "none";
+  qSubmitButton.style.display = "none";
+  inputField.style.display = "none";
+  let no = new QuestionNode("Is it blue?", null, null, "blueberry");
+  let yes = new QuestionNode("Does it have a peel", null, null, "apple");
+  root = new QuestionNode("Is it red?", yes, no, "fruit");
+  currNode = root;
   document.getElementById("topText").innerHTML = root.question;
-
-
 }
+
+
+
+
+
 
 function checkYes() {
-  if(question.yesNode != null)
+  if(currNode.yesNode != null)
   {
-    root = root.yesNode()
+    currNode = currNode.yesNode;
+    updateQuestion(currNode.question);
+        console.log(currNode);
   }
   else {
-    askToAdd(root)
+    currNode = currNode.yesNode;
+    askToAdd(currNode)
+    currPath = true;
+        console.log(currNode);
   }
 }
 
 function checkNo() {
-  if(question.noNode != null)
+  if(currNode.noNode != null)
   {
-    root = root.noNode()
+    currNode = currNode.noNode;
+    updateQuestion(currNode.question);
+        console.log(currNode);
   }
   else {
-    askToAdd(root)
+    currNode = currNode.noNode;
+    askToAdd(currNode)
+    currPath = false;
+        console.log(currNode);
   }
 }
 
 function askToAdd(questionNode) {
-  document.getElementById("topText") = "You found a new path! What is a question which would distinguish the thing you're thinking of?";
+  yesButton.style.display = "none";
+  noButton.style.display = "none";
+  submitButton.style.display = "block";
+  inputField.style.display = "block";
+  document.getElementById("topText").innerHTML = "You found a new path! What were you thinking of?";
+}
 
+function submit(){
+  let x = document.getElementById("inputField").value;
+    currNode = new QuestionNode(x, null, null, "");
+  submitButton.style.display = "none";
+  document.getElementById("topText").innerHTML = "What is a question that differentiates this?";
+  qSubmitButton.style.display = "block";
+}
+
+function qSubmit(){
+  let x = document.getElementById("inputField").value;
+  currNode.question = x;
+  console.log(root);
+  updateNode(root);
+  startGame();
 }

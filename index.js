@@ -15,7 +15,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
 	//get the highscore and word count from database
 	dbo.collection("scrooble").find({}).toArray(function(err, result) {
 	if (err) throw err;
-		node = result[4].questioNode;
+		node = result[4].questionNode;
 		db.close();
 		});
   });
@@ -48,7 +48,8 @@ io.on('connection', function(socket) {
 
 	socket.on('updateNode', function(coolNode) {
 		node = coolNode;
-		updateQuestionNode();
+		updateQuestionNode(node);
+		io.sockets.emit('node', node);
 	});
 });
 
