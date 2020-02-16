@@ -13,4 +13,4 @@
 >  Just do some node things I am not entirely sure ask Colin or something ¯\\\_(ツ)_/¯
 
 ## Follow us on Github!
-![](https://img.shields.io/github/followers/tzenger?label=Follow%20tzenger&style=social) ![](https://img.shields.io/github/followers/ColinLi33?label=Follow%20ColinLi33&style=social)
+[![](https://img.shields.io/github/followers/tzenger?label=Follow%20tzenger&style=social)](https://github.com/tzenger) [![](https://img.shields.io/github/followers/ColinLi33?label=Follow%20ColinLi33&style=social)](https://github.com/ColinLi33)
