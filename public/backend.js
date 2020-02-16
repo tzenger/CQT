@@ -10,6 +10,7 @@ let yesButton = document.getElementById("yesButton");
 let noButton = document.getElementById("noButton");
 let submitButton = document.getElementById("submitButton");
 let inputField = document.getElementById("inputField");
+let restartButton = document.getElementById("restartButton");
 
 yesButton.style.display = "block";
 noButton.style.display = "block";
@@ -36,6 +37,7 @@ function startGame(){
   yesButton.style.display = "block";
   noButton.style.display = "block";
   submitButton.style.display = "none";
+  restartButton.style.display = "none";
   inputField.style.display = "none";
   checkingObject = true;
   checkingSubmit = true;
@@ -62,6 +64,9 @@ function checkYes() {
   }
   else { //Answering the OBJECT Yes
       document.getElementById("topText").innerHTML = "I was right! It is a " + currNode.answer + "!";
+      restartButton.style.display = "block";
+      yesButton.style.display = "none";
+      noButton.style.display = "none";
     }
   }
 
