@@ -2,13 +2,6 @@
 ### An Unmoderated Akinator-esque Community Game
 ![](https://img.shields.io/github/stars/tzenger/CQT) ![](https://img.shields.io/github/forks/tzenger/CQT) ![](https://img.shields.io/github/release/tzenger/CQT) ![](https://img.shields.io/github/issues/tzenger/CQT) ![](https://img.shields.io/github/license/tzenger/CQT)
 
-**Table of Contents**
-
-[TOCM]
-
-[TOC]
-
-
 ## Features
 
 - Simple UI
