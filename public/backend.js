@@ -5,6 +5,7 @@ let currNodeParent;
 let currPath = null;
 let checkingObject;
 let checkingSubmit;
+let questionNum;
 
 let yesButton = document.getElementById("yesButton");
 let noButton = document.getElementById("noButton");
@@ -28,8 +29,8 @@ function updateNode(node){
   socket.emit('updateNode', node);
 }
 
-function updateQuestion(q){
-  document.getElementById("topText").innerHTML = q;
+function updateQuestion(q){ //Updates displayed question
+  document.getElementById("topText").innerHTML = "Q" + questionNum + ". " + q;
 }
 //startGame()
 function startGame(){
@@ -39,6 +40,7 @@ function startGame(){
   submitButton.style.display = "none";
   restartButton.style.display = "none";
   inputField.style.display = "none";
+  questionNum = 1;
   checkingObject = true;
   checkingSubmit = true;
 
@@ -46,7 +48,7 @@ function startGame(){
   //let yes = new QuestionNode("Does it have a peel?", null, null, "Apple");
   //root = new QuestionNode("Is it red?", yes, no, "Strawberry");
   currNode = root;
-  document.getElementById("topText").innerHTML = currNode.question;
+  document.getElementById("topText").innerHTML = "Q" + questionNum + ". " + currNode.question;
 }
 
 //CheckingObject = true means were answering the yes or no of the  QUESTION
@@ -79,6 +81,7 @@ if(checkingObject) { //Answering the QUESTION No
   //if(currPath) { //If current path is "Yes"
     if(currNode.noNode != null)
     {
+      questionNum++;
       currNodeParent = currNode;
       currNode = currNode.noNode;
       updateQuestion(currNode.question);
@@ -96,6 +99,7 @@ if(checkingObject) { //Answering the QUESTION No
   else { //Answering the OBJECT No
     if(currNode.yesNode != null)
     {
+      questionNum++;
       currNodeParent = currNode;
       currNode = currNode.yesNode;
       updateQuestion(currNode.question);
@@ -112,7 +116,7 @@ if(checkingObject) { //Answering the QUESTION No
   }
 }
 
-function askToAdd(questionNode) {
+function askToAdd(questionNode) { //Adds a question when path results in null
   yesButton.style.display = "none";
   noButton.style.display = "none";
   submitButton.style.display = "block";
