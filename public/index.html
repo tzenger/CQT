@@ -9,9 +9,12 @@
               <div class="buttons">
                  <button onclick="checkYes()" id="yesButton">Yes</button>
                  <button onclick="checkNo()" id="noButton">No</button>
-                 <input type="text" id="inputField" value="">
+                 <input type="text"
+                  id="inputField"
+                  onkeydown="if (event.keyCode == 13)
+                  document.getElementById('submitButton').click()"
+                  value="">
                  <button onclick="submit()" id="submitButton">Submit</button>
-                 <button onclick="qSubmit()" id="qSubmitButton">Submit</button>
               </div>
 
 

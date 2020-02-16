@@ -4,17 +4,16 @@ let currNode;
 let currNodeParent;
 let currPath = null;
 let checkingObject;
+let checkingSubmit;
 
 let yesButton = document.getElementById("yesButton");
 let noButton = document.getElementById("noButton");
 let submitButton = document.getElementById("submitButton");
-let qSubmitButton = document.getElementById("qSubmitButton");
 let inputField = document.getElementById("inputField");
 
 yesButton.style.display = "block";
 noButton.style.display = "block";
 submitButton.style.display = "none";
-qSubmitButton.style.display = "none";
 inputField.style.display = "none";
 
 //Pulls from database
@@ -37,9 +36,9 @@ function startGame(){
   yesButton.style.display = "block";
   noButton.style.display = "block";
   submitButton.style.display = "none";
-  qSubmitButton.style.display = "none";
   inputField.style.display = "none";
   checkingObject = true;
+  checkingSubmit = true;
 
   //let no = new QuestionNode("Is it blue?", null, null, "Blueberry");
   //let yes = new QuestionNode("Does it have a peel?", null, null, "Apple");
@@ -48,60 +47,63 @@ function startGame(){
   document.getElementById("topText").innerHTML = currNode.question;
 }
 
+//CheckingObject = true means were answering the yes or no of the  QUESTION
+//CheckingObject = false means were answering the yes or no of the Is it THIS OBJECT
+
 function checkYes() {
-  if(checkingObject)
+  console.log("Chekcing Object? " + checkingObject)
+  console.log("CurrPath? " + currPath)
+  if(checkingObject) //Answering the QUESTION Yes
   {
     console.log(currNode);
-    document.getElementById("topText").innerHTML = "Is it a " + currNode.answer + "?";
+    document.getElementById("topText").innerHTML = "Is it a " + currNode.answer + "?"; //Prompts the Object
     currPath = true;
-    checkingObject = false;
+    checkingObject = false; //Prepares switch to make it refer to the OBJECT
   }
-  else{
+  else { //Answering the OBJECT Yes
       document.getElementById("topText").innerHTML = "I was right! It is a " + currNode.answer + "!";
-    //else {
-    //  currNodeParent = currNode;
-    //  currNode = currNode.yesNode;
-    //  askToAdd(currNode)
-    //  currPath = true;
-    //      console.log(currNode);
-  //}
     }
   }
 
 
 function checkNo() {
-  checkingObject = true
+  console.log("Chekcing Object? " + checkingObject)
+  console.log("CurrPath " + currPath)
 
-if(currPath) {
-  if(currNode.yesNode != null)
-  {
-    currNodeParent = currNode;
-    currNode = currNode.yesNode;
-    updateQuestion(currNode.question);
-        console.log(currNode);
+if(checkingObject) { //Answering the QUESTION No
+  //if(currPath) { //If current path is "Yes"
+    if(currNode.noNode != null)
+    {
+      currNodeParent = currNode;
+      currNode = currNode.noNode;
+      updateQuestion(currNode.question);
+      currPath = false;
+      checkingObject = true;
+    }
+    else {
+      currNodeParent = currNode;
+      currNode = currNode.noNode;
+      askToAdd(currNode)
+      currPath = false;
+      checkingObject = true;
+    }
   }
-  else {
-    currNodeParent = currNode;
-    currNode = currNode.yesNode;
-    askToAdd(currNode)
-    currPath = true;
-        console.log(currNode);
-}
-}
-  else
-  if(currNode.noNode != null)
-  {
-    currNodeParent = currNode;
-    currNode = currNode.noNode;
-    updateQuestion(currNode.question);
-        console.log(currNode);
-  }
-  else {
-    currNodeParent = currNode;
-    currNode = currNode.noNode;
-    askToAdd(currNode)
-    currPath = false;
-        console.log(currNode);
+  else { //Answering the OBJECT No
+    if(currNode.yesNode != null)
+    {
+      currNodeParent = currNode;
+      currNode = currNode.yesNode;
+      updateQuestion(currNode.question);
+      currPath = true;
+      checkingObject = true;
+    }
+    else {
+      currNodeParent = currNode;
+      currNode = currNode.yesNode;
+      askToAdd(currNode)
+      currPath = true;
+      checkingObject = true;
+    }
   }
 }
 
@@ -114,27 +116,28 @@ function askToAdd(questionNode) {
 }
 
 function submit(){
-  let x = document.getElementById("inputField").value;
-  newParentNode = currNode;
-  console.log(newParentNode)
-    currNode = new QuestionNode("", null, null, x);
-  submitButton.style.display = "none";
-  document.getElementById("topText").innerHTML = "What is a question that differentiates this?";
-  qSubmitButton.style.display = "block";
-}
+  if(checkingSubmit) { //Answer submit
+    let x = document.getElementById("inputField").value;
+    newParentNode = currNode;
 
-function qSubmit(){
-  let x = document.getElementById("inputField").value;
-  currNode.question = x;
-  if(currPath) {
-    currNodeParent.yesNode = currNode;
+      currNode = new QuestionNode("", null, null, x);
+    document.getElementById("topText").innerHTML = "What is a question that differentiates this?";
+    document.getElementById('inputField').value = ""; //Clears Text Box
+    checkingSubmit = false;
   }
-  else {
-    currNodeParent.noNode = currNode;
-    console.log("successfulNoNodeThingy");
+  else { //Question Submit
+    let x = document.getElementById("inputField").value;
+    currNode.question = x;
+    if(currPath) {
+      currNodeParent.yesNode = currNode;
+    }
+    else {
+      currNodeParent.noNode = currNode;
+    }
+    updateNode(root);
+    submitButton.style.display = "none";
+    document.getElementById('inputField').value = ""; //Clears Text Box
+    checkingSubmit = true;
+    startGame();
   }
-  console.log("good");
-  console.log(root);
-  updateNode(root);
-  startGame();
 }
