@@ -11,3 +11,14 @@
   vertical-align: middle;
   background-color: #FF7D00;
 }
+
+.development {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  vertical-align: bottom;
+  margin: auto;
+  left: 0;
+  right: 0;
+  font-family: Courier;
+}
